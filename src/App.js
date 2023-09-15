@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
 import SDK from 'casdoor-js-sdk';
-import { config } from "./Setting";
+import { config } from './Setting';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
+//styles
+import GlobalStyle from './styles/globalStyle';
+//components and pages
+import Sidebar from './Pages/Dashboard/Sidebar';
+import Navbar from './Components/Navbar';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -17,7 +20,7 @@ function App() {
   useEffect(() => {
     if (window.location.href.indexOf('code') !== -1) {
       if (!sessionStorage.getItem('token')) {
-        sdk.signin("http://localhost:8080").then(res => {
+        sdk.signin('http://localhost:8080').then((res) => {
           sessionStorage.setItem('token', res.token);
           setTokenReceived(true);
         });
@@ -27,15 +30,16 @@ function App() {
 
   useEffect(() => {
     if (sessionStorage.getItem('token')) {
-      getInfo().then(res => setInfo(res));
+      getInfo().then((res) => setInfo(res));
 
       async function getInfo() {
         let token = sessionStorage.getItem('token');
         if (!token) {
           return;
-        }
-        else {
-          return fetch(`http://localhost:8080/api/getUserInfo?token=${token}`).then(res => res.json());
+        } else {
+          return fetch(
+            `http://localhost:8080/api/getUserInfo?token=${token}`
+          ).then((res) => res.json());
         }
       }
 
@@ -45,39 +49,33 @@ function App() {
         setIsLoggedIn(true);
       }
     }
-  }, [tokenReceived])
+  }, [tokenReceived]);
 
+  //!Note:for ease we are setting the default signin method
   function gotoSignInPage() {
-    document.getElementById('loginMethod').value === "signin"
-    ? window.location.href = sdk.getSigninUrl()
-    : sdk.popupSignin("http://localhost:8080");
+    // document.getElementById('loginMethod').value === 'signin'
+    //   ? (window.location.href = sdk.getSigninUrl())
+    //   : sdk.popupSignin('http://localhost:8080');
+    window.location.href = sdk.getSigninUrl();
   }
 
   function signOut() {
-    sessionStorage.removeItem("token");
+    sessionStorage.removeItem('token');
     setTokenReceived(false);
-    window.location.href = "http://localhost:9000";
+    window.location.href = 'http://localhost:9000';
   }
 
   return (
-    <div className="login" style={{ textAlign: "center" }}>
-      {
-        <span id="result">userName: <span className="username">{username}</span></span>
-      }
-      <div style={{ width: "300px", height: "100px" }}>
-        {
-          isLoggedIn
-            ? <button id="signOut" style={{ width: "200px", height: "50px" }} onClick={signOut}>Logout</button>
-            : <div>
-                <select id="loginMethod" className="login-select">
-                  <option value="signin">Signin</option>
-                  <option value="popupSignin">PopupSignin</option>
-                </select>
-                <button id="signIn" style={{ width: "200px", height: "50px" }} onClick={gotoSignInPage}>Login with Casdoor</button>
-              </div>
-        }
-      </div>
-    </div>
+    <React.StrictMode>
+      <GlobalStyle />
+      {isLoggedIn ? (
+        <>
+          <Sidebar signout={signOut} />
+        </>
+      ) : (
+        <Navbar signin={gotoSignInPage} />
+      )}
+    </React.StrictMode>
   );
 }
 
