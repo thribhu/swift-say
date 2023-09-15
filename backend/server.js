@@ -52,16 +52,15 @@ ZzdL33u2e56I7NJ25MRITZ9vIIoTZyznDHb3Aw85lqSDi5sGKyJ/ZaK9wP2B
 `;
 
 const authCfg = {
-  endpoint: 'https://door.casdoor.com',
-  clientId: 'f6f79118fa0fa4f4a73f',
-  clientSecret: 'c3b18d239f040de8999ea844429bc0f56c6d08cf',
-  certificate: cert,
-  orgName: 'milana',
-  appName: 'milana',
+endpoint: 'https://milana.casdoor.com',
+clientId: 'f6f79118fa0fa4f4a73f',
+clientSecret: 'c3b18d239f040de8999ea844429bc0f56c6d08cf',
+certificate: cert,
+orgName: 'milana',
+appName: 'milana',
 }
 
 const sdk = new SDK(authCfg);
-console.log(sdk.getAuthToken())
 const app = express();
 
 app.use(cors({
