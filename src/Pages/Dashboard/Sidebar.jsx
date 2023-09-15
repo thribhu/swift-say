@@ -1,50 +1,60 @@
 // src/components/Sidebar.js
 import React from 'react';
-import { Drawer, List, ListItemButton as ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
-import { Home, HelpOutline, ExitToApp, FolderOpen} from '@mui/icons-material';
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Avatar, Typography} from '@mui/material';
+import { Person3, ExitToApp, FolderOpen} from '@mui/icons-material';
 import styled from 'styled-components';
 import Proptypes from 'prop-types'
+import {isValidUrl} from '../../utils/string.helper'
 
 const SidebarContainer = styled(Drawer)`
   width: 250px;
   flex-shrink: 0;
 `;
 
-const LogoutButton = styled(ListItem)`
-  position: absolute;
-  bottom: 0;
-`;
-
 const Sidebar = (props) => {
   return (
     <SidebarContainer variant="permanent" anchor="left">
       <List>
-        <ListItem button>
+        <ListItem>
           <ListItemIcon>
-            <Home />
+          <Avatar src={props.avatar} alt="use  preferred avatar"/>
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText>{props.name}</ListItemText>
         </ListItem>
-        <ListItem button>
+        <ListItemButton>
           <ListItemIcon>
             <FolderOpen />
           </ListItemIcon>
           <ListItemText primary="Bookmarks" />
-        </ListItem>
+        </ListItemButton>
+        <ListItemButton>
+          <ListItemIcon>
+            <Person3 />
+          </ListItemIcon>
+          <ListItemText primary="Profile" />
+        </ListItemButton>
         <Divider />
-        <ListItem button onClick={props.signout}>
+        <ListItemButton  onClick={props.signout}>
           <ListItemIcon>
             <ExitToApp />
           </ListItemIcon>
           <ListItemText primary="Logout" />
-        </ListItem>
+        </ListItemButton>
       </List>
     </SidebarContainer>
   );
 };
 
 Sidebar.porpTypes = {
-  logout: Proptypes.func.isRequired
+  logout: Proptypes.func.isRequired,
+  avatar: (props, propName, componentName) => {
+  if (!isValidUrl(props[propName])) {
+    return new Error(
+      `Invalid prop ${propName} supplied to ${componentName}. Validation failed.`
+    );
+  }
+  },
+  name: Proptypes.string.isRequired
 }
 export default Sidebar;
 

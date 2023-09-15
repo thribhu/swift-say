@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "axios": "^1.5.0",
     "casdoor-js-sdk": "0.9.1",
     "casdoor-nodejs-sdk": "1.5.1",
     "cors": "^2.8.5",

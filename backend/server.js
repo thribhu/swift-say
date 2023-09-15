@@ -1,23 +1,9 @@
-// Copyright 2023 The Casdoor Authors. All Rights Reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-const url = require('url')
+const url = require('url');
 const { SDK } = require('casdoor-nodejs-sdk');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const cors = require('cors')
+const cors = require('cors');
 
 //init sdk
 const cert = `
@@ -52,21 +38,23 @@ ZzdL33u2e56I7NJ25MRITZ9vIIoTZyznDHb3Aw85lqSDi5sGKyJ/ZaK9wP2B
 `;
 
 const authCfg = {
-endpoint: 'https://milana.casdoor.com',
-clientId: 'f6f79118fa0fa4f4a73f',
-clientSecret: 'c3b18d239f040de8999ea844429bc0f56c6d08cf',
-certificate: cert,
-orgName: 'milana',
-appName: 'milana',
-}
+  endpoint: 'https://milana.casdoor.com',
+  clientId: 'f6f79118fa0fa4f4a73f',
+  clientSecret: 'c3b18d239f040de8999ea844429bc0f56c6d08cf',
+  certificate: cert,
+  orgName: 'milana',
+  appName: 'milana',
+};
 
 const sdk = new SDK(authCfg);
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:9000',
-  credentials: true
-}))
+app.use(
+  cors({
+    origin: 'http://localhost:9000',
+    credentials: true,
+  })
+);
 
 app.get('/', (req, res) => {
   fs.readFile(path.resolve(__dirname, './index.html'), (err, data) => {
@@ -75,18 +63,23 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/api/getUsersInfo', (req, res) => {
+  const token = req.headers.authorization;
+  let user = sdk.parseJwtToken(token.split(' ')[1]);
+  res.send(JSON.stringify(user));
+});
 app.get('/api/getUserInfo', (req, res) => {
   let urlObj = url.parse(req.url, true).query;
-  console.log(urlObj)
+  console.log(urlObj);
   let user = sdk.parseJwtToken(urlObj.token);
-  console.log(user)
+  console.log(user);
   res.send(JSON.stringify(user));
 });
 
 app.post('*', (req, res) => {
   let urlObj = url.parse(req.url, true).query;
-  sdk.getAuthToken(urlObj.code).then(response => {
-    console.log(response)
+  sdk.getAuthToken(urlObj.code).then((response) => {
+    console.log(response);
     const accessToken = response.access_token;
     // const refresh_token = response.refresh_token;
     res.send(JSON.stringify({ token: accessToken }));

@@ -5,6 +5,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+//utils
+import axiosInstance from './api/api.config';
 //styles
 import GlobalStyle from './styles/globalStyle';
 //components and pages
@@ -13,6 +15,8 @@ import Navbar from './Components/Navbar';
 
 function App() {
   const [username, setUsername] = useState('');
+  const [displayName, setDisplayName] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [sdk] = useState(new SDK(config));
   const [tokenReceived, setTokenReceived] = useState(false);
@@ -33,19 +37,17 @@ function App() {
       getInfo().then((res) => setInfo(res));
 
       async function getInfo() {
-        let token = sessionStorage.getItem('token');
-        if (!token) {
-          return;
-        } else {
-          return fetch(
-            `http://localhost:8080/api/getUserInfo?token=${token}`
-          ).then((res) => res.json());
+        try {
+          const response = await axiosInstance.get('getUsersInfo');
+          return response.data;
+        } catch (err) {
+          throw err;
         }
       }
-
-      function setInfo(res) {
-        let userinfo = res;
+      function setInfo(userinfo) {
         setUsername(userinfo.name);
+        setDisplayName(userinfo.displayName);
+        setUserAvatar(userinfo.avatar);
         setIsLoggedIn(true);
       }
     }
@@ -70,7 +72,7 @@ function App() {
       <GlobalStyle />
       {isLoggedIn ? (
         <>
-          <Sidebar signout={signOut} />
+          <Sidebar name={displayName} avatar={userAvatar} signout={signOut} />
         </>
       ) : (
         <Navbar signin={gotoSignInPage} />
