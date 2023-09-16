@@ -1,55 +1,9 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "milana",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@fontsource/roboto": "^5.0.8",
-    "@mui/icons-material": "^5.14.9",
-    "@mui/material": "^5.14.9",
-    "@mui/styled-engine-sc": "^5.14.9",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "axios": "^1.5.0",
-    "casdoor-js-sdk": "0.9.1",
-    "casdoor-nodejs-sdk": "1.5.1",
-    "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
-    "express": "^4.18.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "styled-components": "^6.0.8",
-    "web-vitals": "^2.1.0"
-  },
+  "workspaces":["packages/*"],
   "scripts": {
-    "start": "cross-env PORT=9000 react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "buffer": "^6.0.3",
-    "prop-types": "^15.8.1"
+    "serve-local": "npx lerna run dev"
   }
 }
