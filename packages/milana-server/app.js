@@ -9,6 +9,8 @@ const sdk = require('./Casdoor');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const OnlyAuthenticatedUser = require('./middlewares/onlyAuthenticated');
+const OnlySupervisor = require('./middlewares/onlySupervisor');
 
 const app = express();
 
@@ -30,11 +32,20 @@ app.use(
 );
 
 app.use('/', indexRouter);
-app.get('/api/getUsersInfo', (req, res) => {
-  const token = req.headers.authorization;
-  let user = sdk.parseJwtToken(token.split(' ')[1]);
-  res.send(JSON.stringify(user));
-});
+app.get(
+  '/api/getSalesOpportunities',
+  [OnlyAuthenticatedUser, OnlySupervisor],
+  (req, res) => {
+    res.status(200).json({
+      isValid: true,
+      opportunities: [
+        {
+          api: 'working',
+        },
+      ],
+    });
+  }
+);
 app.use('/api/users', usersRouter);
 app.post('*', (req, res) => {
   let urlObj = url.parse(req.url, true).query;

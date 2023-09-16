@@ -1,0 +1,1 @@
+p, supervisor, '/api/getSalesOpportunities', GET
