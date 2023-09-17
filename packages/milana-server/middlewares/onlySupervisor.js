@@ -2,7 +2,7 @@
  * @fileoverview middleware which allows only supervisor
  */
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
-const enforcer = require('../Casbin');
+const newEnforcer = require('../Casbin');
 
 /**
  *
@@ -14,11 +14,16 @@ module.exports = async (req, res, next) => {
   try {
     const user = req.user;
     const roles = user.roles;
+    if (!roles.length) {
+      res
+        .status(StatusCodes.UNAUTHORIZED)
+        .send(ReasonPhrases.UNAUTHORIZED)
+        .end();
+    }
     const path = req.path;
     const method = req.method;
-    console.log(roles[0].name);
+    const enforcer = await newEnforcer;
     const hasPermission = await enforcer.enforce(roles[0].name, path, method);
-    console.log(hasPermission);
     if (hasPermission) {
       next();
     } else {

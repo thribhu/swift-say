@@ -10,8 +10,8 @@ import axiosInstance from './api/api.config';
 //styles
 import GlobalStyle from './styles/globalStyle';
 //components and pages
-import Sidebar from './Pages/Dashboard/Sidebar';
 import Navbar from './Components/Navbar';
+import Dashboard from './Pages/Dashboard';
 
 function App() {
   const [_, setUsername] = useState('');
@@ -71,7 +71,7 @@ function App() {
       <GlobalStyle />
       {isLoggedIn ? (
         <>
-          <Sidebar name={displayName} avatar={userAvatar} signout={signOut} />
+          <Dashboard name={displayName} avatar={userAvatar} signout={signOut} />
         </>
       ) : (
         <Navbar signin={gotoSignInPage} />

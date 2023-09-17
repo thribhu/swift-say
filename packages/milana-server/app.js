@@ -40,7 +40,24 @@ app.get(
       isValid: true,
       opportunities: [
         {
-          api: 'working',
+          id: 1,
+          opportunityName: 'Project ABC',
+          potentialRevenue: 25000,
+          closingDate: '2023-10-15',
+          status: 'Prospecting',
+        },
+        {
+          id: 2,
+          opportunityName: 'Renovation Project',
+          potentialRevenue: 18000,
+          closingDate: '2023-11-30',
+        },
+        {
+          id: 3,
+          opportunityName: 'Industrial Client X',
+          potentialRevenue: 35000,
+          closingDate: '2024-11-03',
+          status: 'Qualified',
         },
       ],
     });
