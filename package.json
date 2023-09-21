@@ -2,8 +2,11 @@
   "name": "milana",
   "version": "1.0.0",
   "private": true,
-  "workspaces":["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "serve-local": "npx lerna run dev"
-  }
+  },
+  "dependencies": {}
 }
