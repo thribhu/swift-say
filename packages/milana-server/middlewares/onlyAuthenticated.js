@@ -2,7 +2,7 @@
  * @fileoverview This is a middleware which only furthers authenticated user to next requests
  * @module middlewares
  */
-const sdk = require('../Casdoor');
+const { sdk } = require('../Casdoor');
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 /**
  * @param {Object} req - Express request object
@@ -11,7 +11,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
  */
 const OnlyAuthenticatedUser = (req, res, next) => {
   const { authorization } = req.headers;
-  let [_, token] = authorization.split(' '); // jwt token
+  let [, token] = authorization.split(' '); // jwt token
   try {
     if (!token || token === undefined) {
       res
@@ -29,11 +29,6 @@ const OnlyAuthenticatedUser = (req, res, next) => {
   } catch (err) {
     throw err;
   }
-};
-
-const extractBearerToken = (authrization) => {
-  const [, token] = authrization.split(' ');
-  return token;
 };
 
 module.exports = OnlyAuthenticatedUser;
