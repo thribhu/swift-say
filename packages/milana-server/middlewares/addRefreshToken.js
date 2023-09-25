@@ -17,16 +17,13 @@ const casdoorProxyMiddleware = () => {
         },
       });
       proxyMiddleware(req, res, async () => {
-        const response = await axios.post(
-          `${casdoorUrl}login/oauth/refresh_token`,
-          {
-            refresh_token,
-            grant_type: 'refresh_token',
-            scope: 'profile',
-            client_id: config.clientId,
-            client_secret: config.clientSecret,
-          }
-        );
+        const response = await axios.post(`${casdoorUrl}login/oauth/refresh_token`, {
+          refresh_token,
+          grant_type: 'refresh_token',
+          scope: 'profile',
+          client_id: config.clientId,
+          client_secret: config.clientSecret,
+        });
 
         if (response.status === 200) {
           res.status(StatusCodes.OK).json(response.data);
@@ -37,9 +34,7 @@ const casdoorProxyMiddleware = () => {
       });
     } catch (error) {
       console.error(error);
-      res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .send('Internal Server Error');
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Internal Server Error');
     }
   };
 };

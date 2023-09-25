@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write **/*.js",
     "dev": "nodemon ./bin/www",
     "start": "node ./bin/www"
   },
@@ -22,5 +24,11 @@
     "csv-parser": "3.0.0",
     "axios": "1.5.0",
     "http-proxy-middleware": "2.0.6"
+  },
+  "devDependencies": {
+    "eslint":"8.50.0",
+    "prettier":"3.0.3",
+    "eslint-plugin-prettier": "5.0.0",
+    "eslint-config-prettier": "9.0.0"
   }
 }

@@ -14,9 +14,7 @@ const OnlyAuthenticatedUser = (req, res, next) => {
   let [, token] = authorization.split(' '); // jwt token
   try {
     if (!token || token === undefined) {
-      res
-        .status(StatusCodes.NETWORK_AUTHENTICATION_REQUIRED)
-        .send(ReasonPhrases.NETWORK_AUTHENTICATION_REQUIRED);
+      res.status(StatusCodes.NETWORK_AUTHENTICATION_REQUIRED).send(ReasonPhrases.NETWORK_AUTHENTICATION_REQUIRED);
     } else {
       const user = sdk.parseJwtToken(token);
       if (Object.values(user)) {
