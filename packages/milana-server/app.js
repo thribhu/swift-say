@@ -12,7 +12,6 @@ const usersRouter = require('./routes/users');
 const getRefresh = require('./middlewares/addRefreshToken');
 const OnlyAuthenticatedUser = require('./middlewares/onlyAuthenticated');
 const OnlySupervisor = require('./middlewares/onlySupervisor');
-const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 
 const app = express();
 
