@@ -22,6 +22,12 @@
 - In the root folder, use `yarn` to install the dependencies
 - Later run the script `yarn serve-local` which will start both server and react application on a sigle go
 
+## Scripts
+
+This section of scripts only cover the global scripts which run parllel across the packages.
+1. `yarn lint` run eslint linter to lint the code and help with any errors
+2. `yarn format` run prettier to format the code for consistency
+
 ## Casdoor SDK
 
 - Below are a few important pacakges required for the authentication and authorisation

@@ -32,7 +32,12 @@ class Casdoor {
     const sdk = new SDK(this.config);
     return sdk;
   }
+  getClientId() {
+    return this.config.clientId;
+  }
+  getClientSecret() {
+    return this.config.clientSecret;
+  }
 }
 const instance = new Casdoor();
-
-module.exports = instance.sdk;
+module.exports = { sdk: instance.sdk, instance };

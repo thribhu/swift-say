@@ -5,10 +5,11 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const url = require('url');
-const sdk = require('./Casdoor');
+const { sdk } = require('./Casdoor');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const getRefresh = require('./middlewares/addRefreshToken');
 const OnlyAuthenticatedUser = require('./middlewares/onlyAuthenticated');
 const OnlySupervisor = require('./middlewares/onlySupervisor');
 
@@ -63,12 +64,19 @@ app.get(
     });
   }
 );
+
 app.use('/api/users', usersRouter);
+
+// user refresh token
+app.post('/refreshToken', (req, res, next) => {
+  return getRefresh(req, res, next);
+});
 app.post('*', (req, res) => {
   let urlObj = url.parse(req.url, true).query;
   sdk.getAuthToken(urlObj.code).then((response) => {
     const accessToken = response.access_token;
-    res.send(JSON.stringify({ token: accessToken }));
+    const refreshToken = response.refresh_token;
+    res.send(JSON.stringify({ token: accessToken, refreshToken }));
   });
 });
 

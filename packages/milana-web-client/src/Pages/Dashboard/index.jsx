@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axiosInstance from '../../api/api.config';
 import Sidebar from './Sidebar';
-import { Typography, Container } from '@mui/material';
+import { Typography, Container, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 
 const DashArea = styled.div`
@@ -44,11 +44,11 @@ const Dashboard = (props) => {
   return (
     <Container>
       <Sidebar name={props.name} avatar={props.avatar} signout={props.signout} setNowNav={setActiveName} activeNav={activeNav} />
-      <DashArea>
-      <Typography variant="h2">Welcome, {props.name}</Typography>
+      <Box>
+      <Typography variant="h2"> {props.name}</Typography>
         {title && <Typography >{title}</Typography>}
         {showSales&& <SalesOpportunitiesGrid data={sales} /> }
-      </DashArea>
+      </Box>
     </Container>
   );
 };

@@ -26,6 +26,7 @@ function App() {
       if (!sessionStorage.getItem('token')) {
         sdk.signin('http://localhost:8080').then((res) => {
           sessionStorage.setItem('token', res.token);
+          sessionStorage.setItem('refreshToken', res.refreshToken);
           setTokenReceived(true);
         });
       }

@@ -15,10 +15,7 @@ module.exports = async (req, res, next) => {
     const user = req.user;
     const roles = user.roles;
     if (!roles.length) {
-      res
-        .status(StatusCodes.UNAUTHORIZED)
-        .send(ReasonPhrases.UNAUTHORIZED)
-        .end();
+      res.status(StatusCodes.UNAUTHORIZED).send(ReasonPhrases.UNAUTHORIZED).end();
     }
     const path = req.path;
     const method = req.method;
