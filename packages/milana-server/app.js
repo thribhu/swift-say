@@ -5,10 +5,11 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const url = require('url');
-const { sdk, instance } = require('./Casdoor');
+const { sdk } = require('./Casdoor');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const getRefresh = require('./middlewares/addRefreshToken');
 const OnlyAuthenticatedUser = require('./middlewares/onlyAuthenticated');
 const OnlySupervisor = require('./middlewares/onlySupervisor');
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
@@ -68,24 +69,8 @@ app.get(
 app.use('/api/users', usersRouter);
 
 // user refresh token
-app.post('/refreshToken', async (req, res) => {
-  const { refreshToken } = req.body;
-  try {
-    const tokenRes = await sdk.refreshToken({
-      client_id: instance.getClientId(),
-      client_secret: instance.getClientSecret(),
-      refresh_token: refreshToken,
-    });
-    if (tokenRes.accessToken) {
-      return res.status(StatusCodes.OK).send(ReasonPhrases.OK);
-    } else {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .send(ReasonPhrases.BAD_REQUEST);
-    }
-  } catch (err) {
-    throw err;
-  }
+app.post('/refreshToken', (req, res, next) => {
+  return getRefresh(req, res, next);
 });
 app.post('*', (req, res) => {
   let urlObj = url.parse(req.url, true).query;
