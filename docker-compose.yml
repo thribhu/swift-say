@@ -1,0 +1,25 @@
+version: "3"
+services:
+  milana-server:
+    build:
+      context: ./packages/milana-server
+    image: milana-server:2.0
+    ports:
+      - "8080:8080"
+    networks:
+      - milana-network
+    volumes:
+      - ./packages/milana-server:/usr/src/app
+  milana-client:
+    build:
+      context: ./packages/milana-web-client
+    image: milana-client:1.0
+    ports:
+      - "9000:9000"
+    networks:
+      - milana-network
+    volumes:
+      - .packages/milana-client:/usr/src/app
+networks:
+  milana-network:
+    driver: bridge
