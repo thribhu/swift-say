@@ -7,7 +7,6 @@ FROM install-dependencies as build-client
 COPY . .
 RUN yarn build
 
-# Stage 3: Build Nginx Image
 FROM nginx:alpine as milana-client-nginx
 RUN rm /etc/nginx/conf.d/default.conf 
 COPY nginx.conf /etc/nginx/nginx.conf
