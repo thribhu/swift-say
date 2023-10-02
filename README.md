@@ -19,6 +19,10 @@
 ## Installation
 
 - Clone the repo
+- Install docker on your machine
+- Run docker-compose build
+- After build is succesful, run `docker-compose up` 
+## Development
 - In the root folder, use `yarn` to install the dependencies
 - Later run the script `yarn serve-local` which will start both server and react application on a sigle go
 
