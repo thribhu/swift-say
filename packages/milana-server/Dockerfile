@@ -13,4 +13,5 @@ WORKDIR /usr/src/app/server
 COPY --from=build-milana-server /usr/src/app/server/milana-server.tar.gz /usr/src/app/server/milana-server.tar.gz
 RUN tar -xzvf milana-server.tar.gz
 EXPOSE 8080
-CMD ["node", "./bin www"]
+ENTRYPOINT ["node", "./bin/www"]
+
