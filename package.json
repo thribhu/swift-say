@@ -10,5 +10,8 @@
     "format": "npx lerna run format",
     "serve-local": "npx lerna run dev"
   },
+  "engines": {
+    "yarn":"1.22.19"
+  },
   "dependencies": {}
 }
