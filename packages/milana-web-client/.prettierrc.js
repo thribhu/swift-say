@@ -5,5 +5,5 @@ module.exports = {
 	jsxSingleQuote: true,
 	printWidth: 80,
 	tabWidth: 2,
-	useTab: true,
+	useTabs: true,
 };

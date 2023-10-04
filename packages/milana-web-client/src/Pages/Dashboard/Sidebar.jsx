@@ -1,10 +1,19 @@
 // src/components/Sidebar.js
 import React from 'react';
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Avatar, Typography } from '@mui/material';
+import {
+	Drawer,
+	List,
+	ListItem,
+	ListItemButton,
+	ListItemIcon,
+	ListItemText,
+	Divider,
+	Avatar,
+} from '@mui/material';
 import { Person3, ExitToApp, Work } from '@mui/icons-material';
 import styled from 'styled-components';
-import Proptypes from 'prop-types'
-import { isValidUrl } from '../../utils/string.helper'
+import PropTypes from 'prop-types'; // Fix the import here
+import { isValidUrl } from '../../utils/string.helper';
 
 const SidebarContainer = styled(Drawer)`
 	width: 250px;
@@ -13,48 +22,48 @@ const SidebarContainer = styled(Drawer)`
 
 const Sidebar = (props) => {
 	return (
-		<SidebarContainer variant="permanent" anchor="left">
+		<SidebarContainer variant='permanent' anchor='left'>
 			<List>
 				<ListItem>
 					<ListItemIcon>
-						<Avatar src={props.avatar} alt="use  preferred avatar" />
+						<Avatar src={props.avatar} alt='use  preferred avatar' />
 					</ListItemIcon>
 					<ListItemText>{props.name}</ListItemText>
 				</ListItem>
-				<ListItemButton onClick={() => props.setNowNav("profile")}>
+				<ListItemButton onClick={() => props.setNowNav('profile')}>
 					<ListItemIcon>
 						<Person3 />
 					</ListItemIcon>
-					<ListItemText primary="Profile" />
+					<ListItemText primary='Profile' />
 				</ListItemButton>
-				<ListItemButton onClick={() => props.setNowNav("SaleOppurtunity")}>
+				<ListItemButton onClick={() => props.setNowNav('SaleOppurtunity')}>
 					<ListItemIcon>
 						<Work />
 					</ListItemIcon>
-					<ListItemText primary="Sales Oppurtunity" />
+					<ListItemText primary='Sales Oppurtunity' />
 				</ListItemButton>
 				<Divider />
 				<ListItemButton onClick={props.signout}>
 					<ListItemIcon>
 						<ExitToApp />
 					</ListItemIcon>
-					<ListItemText primary="Logout" />
+					<ListItemText primary='Logout' />
 				</ListItemButton>
 			</List>
 		</SidebarContainer>
 	);
 };
 
-Sidebar.porpTypes = {
-	logout: Proptypes.func.isRequired,
+Sidebar.propTypes = {
+	signout: PropTypes.func.isRequired,
 	avatar: (props, propName, componentName) => {
 		if (!isValidUrl(props[propName])) {
 			return new Error(
-				`Invalid prop ${propName} supplied to ${componentName}. Validation failed.`
+				`Invalid prop ${propName} supplied to ${componentName}. Validation failed.`,
 			);
 		}
 	},
-	name: Proptypes.string.isRequired
-}
+	name: PropTypes.string.isRequired,
+	setNowNav: PropTypes.func.isRequired, // Add this line
+};
 export default Sidebar;
-

@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { config } from '../Setting';
-const CasdoorUrl =
-	process.env.REACT_APP_CASDOOR_URL || 'https://milana.casdoor.com/api/';
-const ClientId = process.env.REACT_APP_CASDOOR_CLIENT || config.clientId;
-const ClientSecret = process.env.REACT_APP_CASDOR_SECRET || config.secret;
+
+const CasdoorUrl = config.serverUrl;
+const ClientId = config.clientId;
+const ClientSecret = config.secret;
 const axiosInstance = axios.create({
-	baseURL: 'http://localhost:8080/api',
+	baseURL: config.baseserverapiurl,
 	withCredentials: true,
 });
 
@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
 				if (error.response.status === 401) {
 					let access_token, refresh_token; // Declare the variables in the outer scope
 					const resp = await axios.post(
-						`${CasdoorUrl}login/oauth/refresh_token`,
+						`${CasdoorUrl}/login/oauth/refresh_token`,
 						{
 							grant_type: 'refresh_token',
 							refresh_token: refreshToken,

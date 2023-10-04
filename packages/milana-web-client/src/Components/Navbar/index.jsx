@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { AppBar, Toolbar, Button, Typography, Avatar } from '@mui/material';
-
+import PropTypes from 'prop-types'; // Import PropTypes
 const StyledAppBar = styled(AppBar)`
 	background-color: #00005a !important;
 	position: fixed;
@@ -25,18 +25,22 @@ const Logo = styled(Avatar)`
 `;
 
 const Navbar = (props) => {
-	const MilanaLogo = "/logo-og.png"
+	const MilanaLogo = '/logo-og.png';
 	return (
-		<StyledAppBar position="static" >
+		<StyledAppBar position='static'>
 			<Toolbar>
-				<Logo src={process.env.PUBLIC_URL + MilanaLogo} alt="milana logo" />
-				<Title variant="h6">
-					Milana
-				</Title>
-				<SignInButton color="inherit" onClick={props.signin}>Sign In</SignInButton>
+				<Logo src={process.env.PUBLIC_URL + MilanaLogo} alt='milana logo' />
+				<Title variant='h6'>Milana</Title>
+				<SignInButton color='inherit' onClick={props.signin}>
+					Sign In
+				</SignInButton>
 			</Toolbar>
 		</StyledAppBar>
 	);
 };
 
+// Add prop-type validation for 'signin'
+Navbar.propTypes = {
+	signin: PropTypes.func.isRequired, // Assuming 'signin' is a function prop
+};
 export default Navbar;

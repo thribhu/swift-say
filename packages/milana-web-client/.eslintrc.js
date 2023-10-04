@@ -2,6 +2,7 @@ module.exports = {
 	env: {
 		browser: true,
 		es2021: true,
+		jest: true, // Include Jest environment
 	},
 	extends: [
 		'eslint:recommended',
@@ -12,6 +13,7 @@ module.exports = {
 		{
 			env: {
 				node: true,
+				browser: true,
 			},
 			files: ['.eslintrc.{js,cjs}'],
 			parserOptions: {

@@ -2,7 +2,6 @@
  * @fileoverview Casbin enforcer
  */
 const { newEnforcer } = require('casbin');
-const fs = require('fs');
 const path = require('path');
 
 const modelPath = path.join(__dirname, 'model.conf');

@@ -14,12 +14,24 @@ import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
 
 function App() {
-	const [_, setUsername] = useState('');
+	const [, setUsername] = useState('');
 	const [displayName, setDisplayName] = useState('');
 	const [userAvatar, setUserAvatar] = useState('');
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [sdk] = useState(new SDK(config));
 	const [tokenReceived, setTokenReceived] = useState(false);
+
+	async function getInfo() {
+		const response = await axiosInstance.get('users');
+		return response.data.user;
+	}
+
+	function setInfo(userinfo) {
+		setUsername(userinfo.name);
+		setDisplayName(userinfo.displayName);
+		setUserAvatar(userinfo.avatar);
+		setIsLoggedIn(true);
+	}
 
 	useEffect(() => {
 		if (window.location.href.indexOf('code') !== -1) {
@@ -36,21 +48,6 @@ function App() {
 	useEffect(() => {
 		if (sessionStorage.getItem('token')) {
 			getInfo().then((res) => setInfo(res));
-
-			async function getInfo() {
-				try {
-					const response = await axiosInstance.get('users');
-					return response.data.user;
-				} catch (err) {
-					throw err;
-				}
-			}
-			function setInfo(userinfo) {
-				setUsername(userinfo.name);
-				setDisplayName(userinfo.displayName);
-				setUserAvatar(userinfo.avatar);
-				setIsLoggedIn(true);
-			}
 		}
 	}, [tokenReceived]);
 

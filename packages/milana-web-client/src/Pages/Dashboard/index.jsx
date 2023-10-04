@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import axiosInstance from '../../api/api.config';
 import Sidebar from './Sidebar';
 import { Typography, Container, Box } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-
-const DashArea = styled.div`
-	box-sizing: border-box;
-	margin: 24px;
-`;
+import PropTypes from 'prop-types';
 
 const Dashboard = (props) => {
 	const [activeNav, setActiveName] = useState('');
@@ -29,7 +24,7 @@ const Dashboard = (props) => {
 					}
 				} catch (error) {
 					if (error.response.data.message) {
-						setTitle(error.response.data.message)
+						setTitle(error.response.data.message);
 					}
 					console.error('Error fetching data:', error);
 				}
@@ -37,16 +32,22 @@ const Dashboard = (props) => {
 		}
 	}, [activeNav, showSales]);
 	useEffect(() => {
-		return (() => {
-			setActiveName('')
-		})
-	}, [])
+		return () => {
+			setActiveName('');
+		};
+	}, []);
 	return (
 		<Container>
-			<Sidebar name={props.name} avatar={props.avatar} signout={props.signout} setNowNav={setActiveName} activeNav={activeNav} />
+			<Sidebar
+				name={props.name}
+				avatar={props.avatar}
+				signout={props.signout}
+				setNowNav={setActiveName}
+				activeNav={activeNav}
+			/>
 			<Box>
-				<Typography variant="h2"> {props.name}</Typography>
-				{title && <Typography >{title}</Typography>}
+				<Typography variant='h2'> {props.name}</Typography>
+				{title && <Typography>{title}</Typography>}
 				{showSales && <SalesOpportunitiesGrid data={sales} />}
 			</Box>
 		</Container>
@@ -68,4 +69,14 @@ const SalesOpportunitiesGrid = ({ data }) => {
 	);
 };
 
+Dashboard.propTypes = {
+	name: PropTypes.string.isRequired,
+	avatar: PropTypes.string.isRequired,
+	signout: PropTypes.func.isRequired,
+	// Add other prop validations as needed
+};
+
+SalesOpportunitiesGrid.propTypes = {
+	data: PropTypes.array.isRequired, // Add the prop validation for 'data'
+};
 export default Dashboard;

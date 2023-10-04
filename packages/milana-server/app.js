@@ -64,8 +64,8 @@ app.get('/api/getSalesOpportunities', [OnlyAuthenticatedUser, OnlySupervisor], (
 app.use('/api/users', usersRouter);
 
 // user refresh token
-app.post('/refreshToken', (req, res, next) => {
-	return getRefresh(req, res, next);
+app.post('/refreshToken', (req, res) => {
+	return getRefresh(req, res);
 });
 app.post('*', (req, res) => {
 	let urlObj = url.parse(req.url, true).query;
@@ -82,7 +82,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
 	res.locals.message = err.message;
 	res.locals.error = req.app.get('env') === 'development' ? err : {};
 	res.status(err.status || 500);
