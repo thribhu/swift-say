@@ -13,31 +13,31 @@ const config = require('./config');
  */
 
 class Casdoor {
-  /**
-   * Create new casdoor connection
-   * @constructor
-   * @param {Object} casdoorConfig - Casdoor application configuration
-   * @see {@link https://github.com/casdoor/casdoor-nodejs-react-example#installation}
-   * @param {string} casdoorCert - Casdoor application public certificate
-   */
-  constructor(casdoorConfig = config) {
-    this.config = casdoorConfig;
-    this.sdk = this.connect();
-  }
-  /**
-   *
-   * @returns an Casdoor SDK instance
-   */
-  connect() {
-    const sdk = new SDK(this.config);
-    return sdk;
-  }
-  getClientId() {
-    return this.config.clientId;
-  }
-  getClientSecret() {
-    return this.config.clientSecret;
-  }
+	/**
+	 * Create new casdoor connection
+	 * @constructor
+	 * @param {Object} casdoorConfig - Casdoor application configuration
+	 * @see {@link https://github.com/casdoor/casdoor-nodejs-react-example#installation}
+	 * @param {string} casdoorCert - Casdoor application public certificate
+	 */
+	constructor(casdoorConfig = config) {
+		this.config = casdoorConfig;
+		this.sdk = this.connect();
+	}
+	/**
+	 *
+	 * @returns an Casdoor SDK instance
+	 */
+	connect() {
+		const sdk = new SDK(this.config);
+		return sdk;
+	}
+	getClientId() {
+		return this.config.clientId;
+	}
+	getClientSecret() {
+		return this.config.clientSecret;
+	}
 }
 const instance = new Casdoor();
 module.exports = { sdk: instance.sdk, instance };
