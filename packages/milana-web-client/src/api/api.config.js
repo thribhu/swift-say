@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
 				if (error.response.status === 401) {
 					let access_token, refresh_token; // Declare the variables in the outer scope
 					const resp = await axios.post(
-						`${CasdoorUrl}/login/oauth/refresh_token`,
+						`${CasdoorUrl}/api/login/oauth/refresh_token`,
 						{
 							grant_type: 'refresh_token',
 							refresh_token: refreshToken,
@@ -47,6 +47,9 @@ axiosInstance.interceptors.response.use(
 					);
 					access_token = resp.data.access_token;
 					refresh_token = resp.data.refresh_token;
+					console.log(' access token ', access_token);
+					console.log(' refresh_token ', refreshToken);
+
 					if (access_token && refreshToken) {
 						axiosInstance.defaults.headers.common[
 							'Authorization'

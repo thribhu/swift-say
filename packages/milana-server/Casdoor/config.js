@@ -33,7 +33,7 @@ ZzdL33u2e56I7NJ25MRITZ9vIIoTZyznDHb3Aw85lqSDi5sGKyJ/ZaK9wP2B
 -----END CERTIFICATE-----
 `;
 let config = {
-	endpoint: 'https://milana.casdoor.com',
+	endpoint: 'https://id.milana.tech',
 	clientId: 'f6f79118fa0fa4f4a73f',
 	clientSecret: 'c3b18d239f040de8999ea844429bc0f56c6d08cf',
 	certificate: cert,
