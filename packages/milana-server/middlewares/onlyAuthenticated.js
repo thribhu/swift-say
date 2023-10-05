@@ -10,23 +10,25 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
  * @param {function} next - Express next object
  */
 const OnlyAuthenticatedUser = (req, res, next) => {
-  const { authorization } = req.headers;
-  let [, token] = authorization.split(' '); // jwt token
-  try {
-    if (!token || token === undefined) {
-      res.status(StatusCodes.NETWORK_AUTHENTICATION_REQUIRED).send(ReasonPhrases.NETWORK_AUTHENTICATION_REQUIRED);
-    } else {
-      const user = sdk.parseJwtToken(token);
-      if (Object.values(user)) {
-        req.user = user;
-        next();
-      } else {
-        throw new Error('Invalid JWT token');
-      }
-    }
-  } catch (err) {
-    throw err;
-  }
+	const { authorization } = req.headers;
+	let [, token] = authorization.split(' '); // jwt token
+	try {
+		if (!token || token === undefined) {
+			res.status(StatusCodes.NETWORK_AUTHENTICATION_REQUIRED).send(ReasonPhrases.NETWORK_AUTHENTICATION_REQUIRED);
+		} else {
+			const user = sdk.parseJwtToken(token);
+			if (Object.values(user)) {
+				req.user = user;
+				next();
+			} else {
+				throw new Error('Invalid JWT token');
+			}
+		}
+	} catch (err) {
+		console.error(err);
+		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Internal Server Error');
+		throw err;
+	}
 };
 
 module.exports = OnlyAuthenticatedUser;

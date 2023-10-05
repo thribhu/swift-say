@@ -11,12 +11,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
 test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+	render(<App />);
+	const linkElement = screen.getByText(/learn react/i);
+	expect(linkElement).toBeInTheDocument();
 });

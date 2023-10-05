@@ -7,7 +7,7 @@ const authMiddleware = require('../middlewares/onlyAuthenticated');
  * Get user information
  */
 router.get('/', authMiddleware, function (req, res, next) {
-  return getUser(req, res, next);
+	return getUser(req, res, next);
 });
 
 module.exports = router;

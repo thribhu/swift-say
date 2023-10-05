@@ -14,71 +14,69 @@ import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
 
 function App() {
-  const [_, setUsername] = useState('');
-  const [displayName, setDisplayName] = useState('');
-  const [userAvatar, setUserAvatar] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [sdk] = useState(new SDK(config));
-  const [tokenReceived, setTokenReceived] = useState(false);
+	const [, setUsername] = useState('');
+	const [displayName, setDisplayName] = useState('');
+	const [userAvatar, setUserAvatar] = useState('');
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [sdk] = useState(new SDK(config));
+	const [tokenReceived, setTokenReceived] = useState(false);
 
-  useEffect(() => {
-    if (window.location.href.indexOf('code') !== -1) {
-      if (!sessionStorage.getItem('token')) {
-        sdk.signin('http://localhost:8080').then((res) => {
-          sessionStorage.setItem('token', res.token);
-          sessionStorage.setItem('refreshToken', res.refreshToken);
-          setTokenReceived(true);
-        });
-      }
-    }
-  }, [sdk]);
+	async function getInfo() {
+		const response = await axiosInstance.get('users');
+		return response.data.user;
+	}
 
-  useEffect(() => {
-    if (sessionStorage.getItem('token')) {
-      getInfo().then((res) => setInfo(res));
+	function setInfo(userinfo) {
+		setUsername(userinfo.name);
+		setDisplayName(userinfo.displayName);
+		setUserAvatar(userinfo.avatar);
+		setIsLoggedIn(true);
+	}
 
-      async function getInfo() {
-        try {
-          const response = await axiosInstance.get('users');
-          return response.data.user;
-        } catch (err) {
-          throw err;
-        }
-      }
-      function setInfo(userinfo) {
-        setUsername(userinfo.name);
-        setDisplayName(userinfo.displayName);
-        setUserAvatar(userinfo.avatar);
-        setIsLoggedIn(true);
-      }
-    }
-  }, [tokenReceived]);
+	useEffect(() => {
+		if (window.location.href.indexOf('code') !== -1) {
+			if (!sessionStorage.getItem('token')) {
+				sdk.signin('http://localhost:8080').then((res) => {
+					sessionStorage.setItem('token', res.token);
+					sessionStorage.setItem('refreshToken', res.refreshToken);
+					setTokenReceived(true);
+				});
+			}
+		}
+	}, [sdk]);
 
-  //!Note:for ease we are setting the default signin method
-  function gotoSignInPage() {
-    // document.getElementById('loginMethod').value === 'signin'
-    //   ? (window.location.href = sdk.getSigninUrl())
-    //   : sdk.popupSignin('http://localhost:8080');
-    window.location.href = sdk.getSigninUrl();
-  }
+	useEffect(() => {
+		if (sessionStorage.getItem('token')) {
+			getInfo().then((res) => setInfo(res));
+		}
+	}, [tokenReceived]);
 
-  function signOut() {
-    sessionStorage.removeItem('token');
-    setTokenReceived(false);
-    window.location.href = 'http://localhost:9000';
-  }
-  return (
-    <React.StrictMode>
-      <GlobalStyle />
-      {isLoggedIn ? (
-        <>
-          <Dashboard name={displayName} avatar={userAvatar} signout={signOut} />
-        </>
-      ) : (
-        <Navbar signin={gotoSignInPage} />
-      )}
-    </React.StrictMode>
-  );
+	//!Note:for ease we are setting the default signin method
+	function gotoSignInPage() {
+		// document.getElementById('loginMethod').value === 'signin'
+		//   ? (window.location.href = sdk.getSigninUrl())
+		//   : sdk.popupSignin('http://localhost:8080');
+		window.location.href = sdk.getSigninUrl();
+	}
+
+	function signOut() {
+		sessionStorage.removeItem('token');
+		sessionStorage.removeItem('refreshToken');
+		setTokenReceived(false);
+		window.location.href = 'http://localhost:9000';
+	}
+	return (
+		<React.StrictMode>
+			<GlobalStyle />
+			{isLoggedIn ? (
+				<>
+					<Dashboard name={displayName} avatar={userAvatar} signout={signOut} />
+				</>
+			) : (
+				<Navbar signin={gotoSignInPage} />
+			)}
+		</React.StrictMode>
+	);
 }
 
 export default App;

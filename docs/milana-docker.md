@@ -24,14 +24,14 @@ Here's a basic example of how you can configure Nginx as an API gateway:
 ```nginx
 server {
     listen 80;
-    server_name api.milana.com;
+    server_name api.milana.tech;
 
     location /request-event {
-        proxy_pass http://api.milana.com/resouces/v1;
+        proxy_pass http://api.milana.tech/resouces/v1;
     }
 
     location /inside-sales {
-        proxy_pass http://api.milana.com/supervisor/v1;
+        proxy_pass http://api.milana.tech/supervisor/v1;
     }
 
     # Other configuration options such as authentication, rate limiting, and caching can be added here.
@@ -40,7 +40,7 @@ server {
 
 In this example:
 
-- Nginx listens on port 80 for requests to `api.milana.com`.
+- Nginx listens on port 80 for requests to `api.milana.tech`.
 - Requests to `/request-event` are routed to `resources/v1`.
 - Requests to `/inside-sales` are routed to `supervisor/v1`.
 

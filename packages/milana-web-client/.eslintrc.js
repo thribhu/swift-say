@@ -1,15 +1,19 @@
 module.exports = {
 	env: {
 		browser: true,
-		commonjs: true,
 		es2021: true,
-		node: true, // Add the 'node' environment
+		jest: true, // Include Jest environment
 	},
-	extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+	extends: [
+		'eslint:recommended',
+		'plugin:prettier/recommended',
+		'plugin:react/recommended',
+	],
 	overrides: [
 		{
 			env: {
 				node: true,
+				browser: true,
 			},
 			files: ['.eslintrc.{js,cjs}'],
 			parserOptions: {
@@ -19,14 +23,13 @@ module.exports = {
 	],
 	parserOptions: {
 		ecmaVersion: 'latest',
+		sourceType: 'module',
 	},
+	plugins: ['react'],
 	rules: {
 		indent: ['error', 'tab'],
 		'linebreak-style': ['error', 'unix'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'always'],
-	},
-	globals: {
-		__dirname: 'readonly', // Allow using __dirname as a readonly global variable
 	},
 };
