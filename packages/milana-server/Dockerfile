@@ -2,7 +2,7 @@
 FROM node:20 as build-milana-server
 WORKDIR /usr/src/app/server
 COPY package.json ./
-RUN yarn install --frozen-lockfile
+RUN yarn install 
 COPY . .
 RUN tar -czvf milana-server.tar.gz ./*
 
