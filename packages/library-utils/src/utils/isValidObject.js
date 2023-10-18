@@ -49,3 +49,5 @@ function isValidObject(data, options = {}) {
     throw err;
   }
 }
+
+module.exports = isValidObject;
