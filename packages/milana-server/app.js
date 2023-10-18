@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -5,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const url = require('url');
+const dbInstance = require('./DatabaseClient/ClientInstance');
 const { sdk } = require('./Casdoor');
 
 const indexRouter = require('./routes/index');
@@ -33,6 +35,15 @@ app.use(
 );
 
 app.use('/', indexRouter);
+app.get('/api/check-db', async (req, res) => {
+	try {
+		const db = await dbInstance();
+		const collections = await db.listCollections().toArray();
+		return res.status(200).send(collections);
+	} catch (err) {
+		throw err;
+	}
+});
 app.get('/api/getSalesOpportunities', [OnlyAuthenticatedUser, OnlySupervisor], (req, res) => {
 	res.status(200).json({
 		isValid: true,
