@@ -1,6 +1,9 @@
 const { MongoClient } = require('mongodb');
+const logger = require('../logger');
 const getConnectionStringUri = require('./NewConnection');
 const connectToMongo = new WeakMap();
+const runtime_dev = process.env.COSMOS_DEV_ENV;
+const runtime_test = process.env.COSMOS_TEST_ENV;
 
 /****************************************
  * Azure cosmos nosql credentials from env
@@ -8,11 +11,12 @@ const connectToMongo = new WeakMap();
  * the node process is exited with code 1
  ****************************************/
 
-const username = process.env.COSMOS_USER;
-const password = process.env.COSMOS_PASSWORD;
-const host = process.env.COSMOS_HOST;
-const port = process.env.PORT;
-const appName = process.env.COSMOS_APP_NAME;
+const username = process.env.COSMOS_USER || 'predictiveresearch';
+const password =
+	process.env.COSMOS_PASSWORD ||
+	'UX55dPf0Z1bymZkBCKM8ubeQNzrGNcNaJ2nABxJvSvJp48w5efoTSsmPQvBX3k2l5BHZ92UfRDItACDb74BRuw==';
+const host = process.env.COSMOS_HOST || 'predictiveresearch.mongo.cosmos.azure.com';
+const appName = process.env.COSMOS_APP_NAME || '@predictiveresearch@';
 
 class MilanaDatabaseClient {
 	/**
@@ -32,11 +36,11 @@ class MilanaDatabaseClient {
 
 		connectToMongo.set(this, async () => {
 			const url = getConnectionStringUri(this.username, this.password, this.host, this.appName);
-			console.log(url);
+			const databaseName = process.env.NODE_ENV === 'test' ? runtime_test : runtime_dev;
 			const client = new MongoClient(url);
 			try {
 				await client.connect();
-				this.dbInstance = client.db();
+				this.dbInstance = client.db(databaseName);
 			} catch (err) {
 				console.error('Failed to connect to MongoDb:', err);
 				process.exit(1);
@@ -54,11 +58,55 @@ class MilanaDatabaseClient {
 		await connectMethod();
 		return this.dbInstance;
 	}
+	/**
+	 *
+	 * @param {string} collection - Collection to create
+	 * @returns void
+	 */
+	async createCollection(collection) {
+		try {
+			await this.dbInstance.createCollection(collection);
+		} catch (err) {
+			logger.error(err);
+		}
+	}
+	/**
+	 *
+	 * @param {string} collection - Collection to destroy
+	 * @returns void
+	 */
+	async dropCollection(collection) {
+		try {
+			await this.dbInstance.dropCollection(collection);
+		} catch (err) {
+			logger.error(err);
+		}
+	}
+	/**
+	 *
+	 * @param {string} collection - Returns the instance of the collection
+	 * @param {boolean} force - True, creates a new collection and returns the instance of newly created collection
+	 * @returns {MongoDBCollection} - Instance of requested collection
+	 */
+	async getCollection(collection, force = false) {
+		const collections = await this.dbInstance.listCollections().toArray();
+		if (collections.map((c) => c.name).includes(collection)) {
+			return this.dbInstance.collection(collection);
+		} else if (force) {
+			await this.createCollection(collection);
+			return this.dbInstance.collection(collection);
+		} else {
+			logger.warn(`Collection ${collection} does not exists.`);
+			return null;
+		}
+	}
 }
 
+const client = new MilanaDatabaseClient(username, password, host, appName);
 async function initializeClient() {
-	const client = new MilanaDatabaseClient(username, password, host, appName);
 	await client.connect();
-	return client.dbInstance;
+	return { client: client, db: client.dbInstance };
 }
-module.exports = initializeClient;
+module.exports = {
+	initializeClient,
+};

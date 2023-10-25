@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const url = require('url');
-const dbInstance = require('./DatabaseClient/ClientInstance');
+const { initializeClient } = require('./DatabaseClient/ClientInstance');
 const { sdk } = require('./Casdoor');
 
 const indexRouter = require('./routes/index');
@@ -37,9 +37,9 @@ app.use(
 app.use('/', indexRouter);
 app.get('/api/check-db', async (req, res) => {
 	try {
-		const db = await dbInstance();
+		const { db, client } = await initializeClient();
 		const collections = await db.listCollections().toArray();
-		return res.status(200).send(collections);
+		return res.status(200).json({ database: db.databaseName, collections });
 	} catch (err) {
 		throw err;
 	}
