@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { getUser } = require('../Controllers/Users');
+const { getUser, saveUser } = require('../Controllers/Users');
 const authMiddleware = require('../middlewares/onlyAuthenticated');
 
 /**
@@ -8,6 +8,12 @@ const authMiddleware = require('../middlewares/onlyAuthenticated');
  */
 router.get('/', authMiddleware, function (req, res, next) {
 	return getUser(req, res, next);
+});
+router.post('/', (req, res) => {
+	return saveUser(req, res, 201);
+});
+router.put('/', (req, res) => {
+	return saveUser(req, res, 202);
 });
 
 module.exports = router;
