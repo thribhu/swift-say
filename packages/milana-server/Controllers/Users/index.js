@@ -3,7 +3,6 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('../../logger');
 const userSchema = require('../../Entities/User/User.schema');
 const User = require('../../Entities/User');
-const { initializeClient } = require('../../DatabaseClient/ClientInstance');
 
 /**
  *
@@ -12,8 +11,9 @@ const { initializeClient } = require('../../DatabaseClient/ClientInstance');
  * @returns User information
  */
 const getUser = async (req, res) => {
-	const { db } = await initializeClient();
 	const { id } = req.user;
+	logger.info(`User ${id}`);
+	return res.status(200).json(req.user);
 };
 
 /**

@@ -2,6 +2,7 @@
  * @fileoverview This is a middleware which only furthers authenticated user to next requests
  * @module middlewares
  */
+const logger = require('../logger');
 const { sdk } = require('../Casdoor');
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 /**
@@ -25,9 +26,8 @@ const OnlyAuthenticatedUser = (req, res, next) => {
 			}
 		}
 	} catch (err) {
-		console.error(err);
+		logger.error(err);
 		res.status(StatusCodes.INTERNAL_SERVER_ERROR).send('Internal Server Error');
-		throw err;
 	}
 };
 

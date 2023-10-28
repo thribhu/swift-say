@@ -6,7 +6,7 @@ const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const casdoorProxyMiddleware = () => {
 	return async (req, res, next) => {
 		try {
-			const casdoorUrl = 'https://milan.casdoor.com/api/';
+			const casdoorUrl = 'https://milana-sg.casdoor.com/api/';
 			const { refresh_token } = req.body;
 
 			const proxyMiddleware = createProxyMiddleware({
