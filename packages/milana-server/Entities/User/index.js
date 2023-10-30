@@ -106,36 +106,6 @@ class User {
 	}
 	/**
 	 * @async
-	 * @param {string} _id - User's casdoor id
-	 * @returns {boolean} - True if user's account is deactivated else false
-	 */
-	async deactivate() {
-		try {
-			if (this.client) {
-				this.setup();
-			}
-			let defaultUser = await this.isEsistingUser();
-			if (!defaultUser) {
-				throw new Error(`Invalid: ${this.username} cannot perform deactivate method.`);
-			} else {
-				const deactivate = await this.client.findOneAndUpdate(
-					{ _id: defaultUser },
-					{ $set: { deactivate: true } },
-					{ returnOriginal: false },
-				);
-				if (deactivate) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		} catch (err) {
-			logger.error(err);
-			return false;
-		}
-	}
-	/**
-	 * @async
 	 * @param {boolean} activateAccount - Set to true to activate the account, false to deactivate it.
 	 * @returns {boolean} - True if the account status is changed, else false
 	 */
