@@ -21,11 +21,22 @@ function App() {
 	const [sdk] = useState(new SDK(config));
 	const [tokenReceived, setTokenReceived] = useState(false);
 
+	/**
+	 * @async
+	 * @returns {Object}  Returns casdoor authenticated user object
+	 */
 	async function getInfo() {
 		const response = await axiosInstance.get('users');
-		return response.data.user;
+		return response.data;
 	}
 
+	/**
+	 *
+	 * @param {Object} userinfo
+	 * @param {string} userinfo.name - Casdoor username
+	 * @param {string} userinfo.displayName - Casdoor display name
+	 * @param {string} userinfo.avatar - Casdoor avatar URI
+	 */
 	function setInfo(userinfo) {
 		setUsername(userinfo.name);
 		setDisplayName(userinfo.displayName);
@@ -47,15 +58,14 @@ function App() {
 
 	useEffect(() => {
 		if (sessionStorage.getItem('token')) {
-			getInfo().then((res) => setInfo(res));
+			getInfo().then((name, displayName, avatar) => {
+				setInfo({ name, displayName, avatar });
+			});
 		}
 	}, [tokenReceived]);
 
 	//!Note:for ease we are setting the default signin method
 	function gotoSignInPage() {
-		// document.getElementById('loginMethod').value === 'signin'
-		//   ? (window.location.href = sdk.getSigninUrl())
-		//   : sdk.popupSignin('http://localhost:8080');
 		window.location.href = sdk.getSigninUrl();
 	}
 
