@@ -21,6 +21,8 @@ services:
       - milana-network
     volumes:
       - client-data:/usr/src/app/data
+    depends_on:
+      - server
 
 networks:
   milana-network:

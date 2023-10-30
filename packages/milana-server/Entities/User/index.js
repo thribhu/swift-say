@@ -34,6 +34,10 @@ class User {
 		const { client } = await initializeClient();
 		this.client = await client.getCollection('Users', true);
 	}
+	/**
+	 *
+	 * @returns {string|boolean} Returns ID of the user if exists else fase
+	 */
 	async isEsistingUser() {
 		if (!this.client) {
 			await this.setup();
@@ -41,7 +45,7 @@ class User {
 		const userExists = await this.client.findOne({ username: this.username });
 		if (userExists) {
 			this._id = userExists._id.toString();
-			return true;
+			return userExists._id.toString();
 		} else {
 			logger.info(`${this.username} has no account yet.`);
 			return false;
@@ -63,10 +67,11 @@ class User {
 			if (!this.client) {
 				await this.setup();
 			}
-			if (this.isEsistingUser()) {
+			const isDeffaultUser = await this.isEsistingUser();
+			if (isDeffaultUser) {
 				if (user) {
-					const updateRequest = await userCollection.findOneAndUpdate(
-						{ _id: this._id },
+					const updateRequest = await this.client.findOneAndUpdate(
+						{ _id: isDeffaultUser },
 						{ $set: { ...user } },
 						{ returnOriginal: false },
 					);
@@ -81,13 +86,14 @@ class User {
 					return false;
 				}
 			} else {
-				let newUser = await userCollection.insertOne({
+				let newUser = await this.client.insertOne({
 					username: this.username,
 					displayName: this.displayName,
 					email: this.email,
 					roles: this.roles,
 					gender: this.gender,
 					age: this.age,
+					deactivate: false,
 					...user,
 				});
 				this._id = newUser._id;
@@ -100,14 +106,32 @@ class User {
 	}
 	/**
 	 * @async
-	 * @param {string} _id - User's casdoor id
-	 * @returns {boolean} - True if user's account is deactivated else false
+	 * @param {boolean} activateAccount - Set to true to activate the account, false to deactivate it.
+	 * @returns {boolean} - True if the account status is changed, else false
 	 */
-	async deactivate() {
-		if (!this._id) {
-			logger.error('Invalid operation. Missing user record. Create a record and try again.');
+	async toggleAccountStatus(activateAccount) {
+		try {
+			if (this.client) {
+				this.setup();
+			}
+			let defaultUser = await this.isEsistingUser();
+			if (!defaultUser) {
+				throw new Error(`Invalid: ${this.username} cannot perform account status change.`);
+			} else {
+				const updatedStatus = await this.client.findOneAndUpdate(
+					{ _id: defaultUser },
+					{ $set: { deactivate: activateAccount } },
+					{ returnOriginal: false },
+				);
+				if (updatedStatus) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} catch (err) {
+			logger.error(err);
 			return false;
-		} else {
 		}
 	}
 }
