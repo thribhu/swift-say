@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const express = require('express');
 const { StatusCodes, ReasonPhrases } = require('http-status-codes');
 const logger = require('../../logger');
@@ -60,7 +61,7 @@ const deactivate = async (req, res) => {
 	const { error, value } = userSchema.validate(req.body);
 	try {
 		if (error) {
-			throw new Error(err);
+			throw new Error(error);
 		}
 		const user = new User(value);
 		const deactivateUser = await user.toggleAccountStatus(true);
@@ -84,7 +85,7 @@ const activate = async (req, res) => {
 	const { error, value } = userSchema.validate(req.body);
 	try {
 		if (error) {
-			throw new Error(err);
+			throw new Error(error);
 		}
 		const user = new User(value);
 		const deactivateUser = await user.toggleAccountStatus(false);

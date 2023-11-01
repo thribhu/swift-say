@@ -35,14 +35,10 @@ app.use(
 );
 
 app.use('/', indexRouter);
-app.get('/api/check-db', async (req, res) => {
-	try {
-		const { db, client } = await initializeClient();
-		const collections = await db.listCollections().toArray();
-		return res.status(200).json({ database: db.databaseName, collections });
-	} catch (err) {
-		throw err;
-	}
+app.get('/api/check-db', async (_, res) => {
+	const { db } = await initializeClient();
+	const collections = await db.listCollections().toArray();
+	return res.status(200).json({ database: db.databaseName, collections });
 });
 app.get('/api/getSalesOpportunities', [OnlyAuthenticatedUser, OnlySupervisor], (req, res) => {
 	res.status(200).json({

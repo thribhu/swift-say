@@ -1,5 +1,4 @@
-import path, { join, dirname } from 'path';
-
+import { join, dirname } from 'path';
 /**
  * This function is used to resolve the absolute path of a package.
  * It is needed in projects that use Yarn PnP or are set up within a monorepo.
@@ -17,6 +16,8 @@ const config = {
 		getAbsolutePath('@storybook/preset-create-react-app'),
 		getAbsolutePath('@storybook/addon-onboarding'),
 		getAbsolutePath('@storybook/addon-interactions'),
+		getAbsolutePath('@storybook/addon-actions'),
+		getAbsolutePath('@storybook/addon-a11y'),
 	],
 	framework: {
 		name: getAbsolutePath('@storybook/react-webpack5'),

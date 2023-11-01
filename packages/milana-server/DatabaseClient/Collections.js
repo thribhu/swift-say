@@ -11,7 +11,7 @@ const { initializeClient } = require('./ClientInstance');
 async function getCollectionInstance(collection, force = false) {
 	try {
 		const { client } = await initializeClient();
-		const instance = await client.getCollection(...arguments);
+		const instance = await client.getCollection(collection, force);
 		if (instance) {
 			return instance;
 		} else {
