@@ -4,6 +4,7 @@
 - [ ] fix eslint errors in express project
 - [ ] fix eslint errors in react project
 - [ ] Must use pem file casdoor certificate
+- [ ] Add docs about nvm and yarn installation
 
 ## Curious to implement
 - How should we setup ** nginx ** with casbin as authorisor and casdoor as token validator. 

@@ -82,7 +82,7 @@ class User {
 						return false;
 					}
 				} else {
-					logger.info(`Invalid update object. Try again.`);
+					logger.info('Invalid update object. Try again.');
 					return false;
 				}
 			} else {
