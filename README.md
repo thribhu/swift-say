@@ -5,12 +5,12 @@
 - The project is cloned from [casbin-react-express](https://github.com/casdoor/casdoor-nodejs-react-example)
 - For seamless development expeirence, [lerna](https://lerna.js.org/docs/getting-started) is initilized to adapt mono repo approach
 - There are 2 packages in the monorepo
-  1. milana-server
-  2. milana-web-client
+  1. server
+  2. client-web
 
 ## Prerequisites
 
-> For simplicity, the documentation uses `milana` as the name of origanisation and application
+> For simplicity, the documentation uses `message-class` as the name of origanisation and application
 
 1. Should have a casdoor application setup on the [casdoor](https://casdoor.org/)
 2. Create an organisation in casdoor,
@@ -42,7 +42,7 @@ This section of scripts only cover the global scripts which run parllel across t
 
 ## Configuration
 
-In the package milana-server, A folder `Casbin` is being used to define the models, policies of the casbin.
+In the package server, A folder `Casbin` is being used to define the models, policies of the casbin.
 The below is a base model file required by the casbin
 
 ```conf

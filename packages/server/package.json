@@ -1,14 +1,15 @@
 {
-  "name": "@milana/server",
+  "name": "@message-mannkey/server",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write **/*.js",
-    "dev": "nodemon ./bin/www",
+    "dev": "npx nodemon ./bin/www",
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@message-mannkey/utils": "1.0.0",
     "axios": "1.5.0",
     "casbin": "^5.27.0",
     "casdoor-nodejs-sdk": "1.5.1",

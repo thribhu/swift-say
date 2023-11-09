@@ -1,5 +1,5 @@
 {
-  "name": "@milana/web-client",
+  "name": "@message-mannkey/client-web",
   "version": "1.0.0",
   "private": true,
   "dependencies": {

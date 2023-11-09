@@ -3,7 +3,7 @@ module.exports = {
 		browser: true,
 		commonjs: true,
 		es2021: true,
-		node: true, // Add the 'node' environment
+		node: true,
 	},
 	extends: ['eslint:recommended', 'plugin:prettier/recommended'],
 	overrides: [
@@ -27,6 +27,6 @@ module.exports = {
 		semi: ['error', 'always'],
 	},
 	globals: {
-		__dirname: 'readonly', // Allow using __dirname as a readonly global variable
+		__dirname: 'readonly',
 	},
 };
