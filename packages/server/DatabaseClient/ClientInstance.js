@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb');
 const logger = require('../logger');
-const getConnectionStringUri = require('./NewConnection');
+// const getConnectionStringUri = require('./NewConnection');
 const connectToMongo = new WeakMap();
 const runtime_dev = process.env.COSMOS_DEV_ENV;
 const runtime_test = process.env.COSMOS_TEST_ENV;
@@ -35,14 +35,15 @@ class MilanaDatabaseClient {
 		this.dbInstance = null;
 
 		connectToMongo.set(this, async () => {
-			const url = getConnectionStringUri(this.username, this.password, this.host, this.appName);
+			// const url = getconnectionstringuri(this.username, this.password, this.host, this.appname);
+			const url = 'mongodb://loc-db:27017/test';
 			const databaseName = process.env.NODE_ENV === 'test' ? runtime_test : runtime_dev;
 			const client = new MongoClient(url);
 			try {
 				await client.connect();
 				this.dbInstance = client.db(databaseName);
 			} catch (err) {
-				console.error('Failed to connect to MongoDb:', err);
+				logger.error('Failed to connect to MongoDb:', err);
 				process.exit(1);
 			}
 		});

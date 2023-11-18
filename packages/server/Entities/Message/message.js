@@ -2,7 +2,7 @@
  * @fileoverview Message constructor which will format respecting all messaging platforms
  * @module Message
  */
-const { stripUnwanted } = require('@message-mannkey/utils');
+// const { stripUnwanted } = require('@message-mannkey/utils');
 const logger = require('../../logger');
 /**
  * @typedef {Object} MessageOptions
@@ -52,14 +52,14 @@ class Message {
 	 *
 	 * @returns {void} Strips unwanted whitespace and return the message
 	 */
-	format() {
-		const formatted = stripUnwanted(this.message);
-		if (formatted) {
-			this.message = formatted;
-		} else {
-			logger.error(`Invalid message: ${this.message} is not a valid string`);
-		}
-	}
+	// format() {
+	// 	const formatted = stripUnwanted(this.message);
+	// 	if (formatted) {
+	// 		this.message = formatted;
+	// 	} else {
+	// 		logger.error(`Invalid message: ${this.message} is not a valid string`);
+	// 	}
+	// }
 
 	/**
 	 * @description Saves a draft version of the message

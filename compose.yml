@@ -1,0 +1,33 @@
+services:
+  loc-db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - db:data:/db
+  server:
+    build:
+      context: ./packages/server
+    image: loc-server
+    ports:
+      - "8080:8080"
+    volumes:
+      - server-data:/usr/src/app/data
+    depends_on:
+      - loc-db
+
+  client:
+    build:
+      context: ./packages/learn-to-code
+    image: loc-client-ssr-web
+    ports:
+      - "9000:9000"
+    volumes:
+      - client-data:/usr/loc/src/app/data
+    depends_on:
+      - server
+
+volumes:
+  server-data:
+  client-data:
+  loc-db-data:

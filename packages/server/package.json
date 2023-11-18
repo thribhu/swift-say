@@ -2,6 +2,7 @@
   "name": "@message-mannkey/server",
   "version": "1.0.0",
   "private": true,
+  "main": "bin/www",
   "scripts": {
     "lint": "eslint .",
     "format": "prettier --write **/*.js",
@@ -9,7 +10,6 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@message-mannkey/utils": "1.0.0",
     "axios": "1.5.0",
     "casbin": "^5.27.0",
     "casdoor-nodejs-sdk": "1.5.1",

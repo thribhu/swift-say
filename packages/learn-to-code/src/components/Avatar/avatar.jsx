@@ -2,23 +2,46 @@
  * @fileoverview Avatar component with tailwind css
  */
 
-import React from "react";
-export default function Example() {
+import PropTypes from "prop-types";
+
+const DefaultUser = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="w-12 h-12 flex-none rounded-full"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+    />
+  </svg>
+);
+
+function Avatar({ uri, alt }) {
   return (
     <>
-      <div class="p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 mt-4">
-        <div class="shrink-0">
+      {uri.length ? (
+        <div className="shrink-0">
           <img
-            class="h-12 w-12 rounded"
-            src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt="ChitChat Logo"
+            className="h-12 w-12 flex-none rounded-full"
+            src={uri.length ? uri : undefined}
+            alt={alt}
           />
         </div>
-        <div>
-          <div class="text-xl font-medium text-sky-400">ChitChat</div>
-          <p class="text-slate-500">You have a new message!</p>
-        </div>
-      </div>
+      ) : (
+        <DefaultUser />
+      )}
     </>
   );
 }
+
+Avatar.propTypes = {
+  uri: PropTypes.string.isRequired,
+  alt: PropTypes.string,
+};
+
+export default Avatar;
