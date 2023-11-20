@@ -1,11 +1,13 @@
 FROM node:20 as learn-to-code-instance
 WORKDIR /usr/loc/src/app/client
 COPY package.json ./
-RUN yarn install
+ENV NODE_ENV=production
+RUN npm install --omit=dev
 
 FROM learn-to-code-instance as build-loc-client
+RUN ls
 COPY . .
-RUN yarn build
+RUN npm run build
 RUN tar -czvf loc-client.tar.gz -C ./build .
 
 # Nginx should run on port 9000, same as the React app

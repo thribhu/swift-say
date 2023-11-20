@@ -2,10 +2,12 @@
  * @fileoverview Card component with header, body, footer
  */
 
+import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import Avatar from "../Avatar/avatar";
 
-function BlogCard({ title, titleHelp, content, owner, hero }) {
+function BlogCard({ title, titleHelp, content, owner, hero, slug }) {
+  const navigate = useNavigate();
   const truncatedContent = content ? content.slice(0, 250) : "";
 
   const generateMedia = (hero) => {
@@ -41,7 +43,10 @@ function BlogCard({ title, titleHelp, content, owner, hero }) {
     return (
       <div className="flex items-center justify-between bg-gray-100 p-4">
         <div className="flex items-center space-x-4">
-          <button aria-label="comment" className="text-gray-500 hover:text-indigo-500">
+          <button
+            aria-label="comment"
+            className="text-gray-500 hover:text-indigo-500"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -57,7 +62,13 @@ function BlogCard({ title, titleHelp, content, owner, hero }) {
               />
             </svg>
           </button>
-          <button aria-label="view detail" className="text-gray-500 hover:text-indigo-500">
+          <button
+            aria-label="view detail"
+            className="text-gray-500 hover:text-indigo-500"
+            onClick={() => {
+              navigate(`/blogs/${slug}`);
+            }}
+          >
             <svg
               className="w-6 h-6"
               fill="none"

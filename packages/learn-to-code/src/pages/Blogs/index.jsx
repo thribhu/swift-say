@@ -18,6 +18,7 @@ function Blogs() {
             blog.id,
             blog.title,
             blog.content,
+            blog.slug,
             blog.media,
             blog.mediaCount,
             blog.owner,
@@ -25,12 +26,14 @@ function Blogs() {
             blog.updatedAt,
             blog.comments
           );
+          console.log(_blog);
           return (
             <BlogCard
               key={_blog.id}
               title={_blog.title}
               titleHelp={_blog.generateTitleHelp()}
               content={_blog.content}
+              slug={_blog.slug}
               mediaCount={_blog.mediaCount}
               owner={_blog.owner}
               hero={_blog.media[0]}
@@ -42,4 +45,4 @@ function Blogs() {
   );
 }
 
-export default withNavbar(Blogs)
+export default withNavbar(Blogs);
