@@ -36,7 +36,7 @@ class MilanaDatabaseClient {
 
 		connectToMongo.set(this, async () => {
 			// const url = getconnectionstringuri(this.username, this.password, this.host, this.appname);
-			const url = 'mongodb://loc-db:27017/test';
+			const url = 'mongodb://127.0.0.1:27017/test';
 			const databaseName = process.env.NODE_ENV === 'test' ? runtime_test : runtime_dev;
 			const client = new MongoClient(url);
 			try {

@@ -1,10 +1,26 @@
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import RichText from "../../../components/RichText";
 import withNavbar from "../../../components/WithNavbar";
 import Feedback from "../../Feedback/404";
 import blogs from "../mock.data";
 import { useParams } from "react-router-dom";
+import { richText } from "../../../utils/format.strings";
 
 function DetailPage({ title, createdAt, owner, content }) {
+  const [blogContent, setContent] = useState("");
+  useEffect(() => {
+    async function getMarkdown(path) {
+      try {
+        const res = await fetch(path);
+        const text = await richText(res.text());
+        setContent(text);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getMarkdown("readme.md");
+  }, []);
   return (
     <div className="container mx-auto mt-8 flex justify-center">
       <article className="bg-white p-8 rounded shadow-md w-4/5">
@@ -23,7 +39,7 @@ function DetailPage({ title, createdAt, owner, content }) {
         </div>
 
         <div className="prose max-w-full">
-          <p>{content}</p>
+          <RichText content={blogContent} />
         </div>
         <div className="mt-6">
           <span className="mr-2">Share:</span>

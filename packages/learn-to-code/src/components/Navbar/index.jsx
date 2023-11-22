@@ -1,5 +1,6 @@
 /**
  * @fileoverview Customizable navbar
+ * @description NAVBAR comoponent with default styles
  */
 import React from "react";
 import PropTypes from "prop-types";

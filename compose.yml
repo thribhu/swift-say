@@ -4,7 +4,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - db:data:/db
+      - loc-db-data:/db
   server:
     build:
       context: ./packages/server
@@ -16,16 +16,16 @@ services:
     depends_on:
       - loc-db
 
-  client:
-    build:
-      context: ./packages/learn-to-code
-    image: loc-client-ssr-web
-    ports:
-      - "9000:9000"
-    volumes:
-      - client-data:/usr/loc/src/app/data
-    depends_on:
-      - server
+  # client:
+  #   build:
+  #     context: ./packages/learn-to-code
+  #   image: loc-client-ssr-web
+  #   ports:
+  #     - "9000:9000"
+  #   volumes:
+  #     - client-data:/usr/loc/src/app/data
+  #   depends_on:
+  #     - server
 
 volumes:
   server-data:

@@ -22,14 +22,14 @@ function BlogCard({ title, titleHelp, content, owner, hero, slug }) {
     );
   };
 
-  const Header = ({ title, titleHelp, owner }) => {
+  const Header = ({ title, statsTitle, owner }) => {
     return (
       <div className="bg-slate-200 text-slate-900 flex justify-between items-center p-4">
         <div className="flex flex-col">
           <h1 className="text-xl font-bold overflow-hidden overflow-ellipsis h-8">
             {title}
           </h1>
-          <h4 className="text-sm font-thin">{titleHelp}</h4>
+          <h4 className="text-sm font-thin">{statsTitle}</h4>
         </div>
         <Avatar uri={owner.avatar} alt={owner.name} />
       </div>
@@ -107,7 +107,7 @@ function BlogCard({ title, titleHelp, content, owner, hero, slug }) {
 BlogCard.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string.isRequired,
-  titleHelp: PropTypes.string,
+  statsTitle: PropTypes.string,
   content: PropTypes.string.isRequired,
   hero: PropTypes.string,
   owner: PropTypes.shape({

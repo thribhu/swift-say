@@ -1,4 +1,5 @@
 import { formatUiDate } from "../../utils/date";
+import BlogSchema from "./blog.schema";
 
 /**
  * @typedef {Object} Owner User who owns the blog
@@ -9,48 +10,40 @@ import { formatUiDate } from "../../utils/date";
 /**
  * @class Blog - Instance of a blog with helper methods like comment, share
  */
-export default class Blog {
+export default class Blog extends BlogSchema {
   /**
    * @constructor
-   * @param {string} id
-   * @param {string} title
-   * @param {string} content
-   * @param {string} slug
-   * @param {string[]} media
-   * @param {number} mediaCount
-   * @param {Owner} owner
-   * @param {Date} createdAt
-   * @param {Date} updatedAt
-   * @param {number} comments
+   * @param {Object} blog - blog object
+   * @param {string} blog.id - UUID for the blog record
+   * @param {string} blog.title - 255 limit characters uti8 string
+   * @param {string} blog.content - Content with support to rich text
+   * @param {string} blog.slug - url friendly slug
+   * @param {string[]} blog.media - image or videos for the blog
+   * @param {Owner} blog.owner - UUID for the owner
+   * @param {Date} blog.createdAt - created date
+   * @param {Date} blog.updatedAt - Last updated date
+   * @param {number} blog.comments - Total nuber of comment engagement
    */
-  constructor(
-    id = null,
-    title,
-    content,
-    slug,
-    media,
-    mediaCount,
-    owner,
-    createdAt,
-    updatedAt,
-    comments
-  ) {
-    this.id = id;
-    this.title = title;
-    this.slug = slug;
-    this.content = content;
-    this.media = media;
-    this.mediaCount = mediaCount;
-    this.owner = owner;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.comments = comments;
+  constructor(blog) {
+    super();
+    const blogEntries = Object.entries(blog);
+    this.setup();
+    blogEntries.forEach((key, value) => (this[key] = value));
+    this.mediaCount = this.media.length;
+  }
+  async setup(blog) {
+    try {
+      const validation = await this.validate(blog);
+      return validation;
+    } catch (err) {
+      throw err;
+    }
   }
   /**
    * @description Generates title helper function to render blog inside a grid
    * @returns string
    */
-  generateTitleHelp() {
+  getStats() {
     let help = "";
     if (!this.createdAt) {
       return null;
